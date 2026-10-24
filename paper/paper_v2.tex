@@ -1,0 +1,510 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{array}
+
+% Tables and figures are read from tables/ and figures/ next to this file.
+% code/main.m, code/make_paper_outputs.m and code/export_to_paper.m create them.
+\newcommand{\inputtable}[1]{\IfFileExists{tables/#1.tex}{\input{tables/#1.tex}}{\fbox{\footnotesize missing: tables/\detokenize{#1}.tex}}}
+\newcommand{\inputfig}[2]{\IfFileExists{figures/#1.pdf}{\includegraphics[width=#2]{figures/#1.pdf}}{\fbox{\footnotesize missing: figures/\detokenize{#1}.pdf}}}
+
+\begin{document}
+
+\title{Credit Supply, Uncertainty and U.S. Private R\&D Investment: Evidence from a Sign-Restricted VAR}
+
+\author{\IEEEauthorblockN{Albert Moln\'ar}
+\IEEEauthorblockA{\textit{Keleti K\'aroly Faculty of Business and Management} \\
+\textit{\'Obuda University}\\
+Budapest, Hungary \\
+molnar.albert@kgk.uni-obuda.hu}
+}
+
+\maketitle
+
+\begin{abstract}
+This paper studies how credit supply shocks and economic policy uncertainty
+shocks affect private research and development (R\&D) investment in the
+United States, the largest R\&D economy in the world and the centre of the
+current investment cycle in artificial intelligence. We estimate a Bayesian structural vector
+autoregression on quarterly data for 1986--2019 and identify credit supply,
+uncertainty and aggregate supply shocks with sign and relative-magnitude
+restrictions on output, prices, the one-year Treasury yield, the excess bond
+premium and the economic policy uncertainty index. The response of R\&D
+investment is left unrestricted. A credit supply shock of one standard
+deviation lowers real R\&D investment by about 1\% after two years, and the
+posterior probability of a decline is close to 0.9. The response to an
+uncertainty shock is smaller and its sign is not robust across
+specifications. Local projections do not detect a lasting effect on the level
+of R\&D investment five to seven years after either shock, although the
+shortfall in R\&D investment implies a persistent, if imprecisely estimated,
+loss of R\&D capital.
+\end{abstract}
+
+\begin{IEEEkeywords}
+R\&D investment, credit supply, excess bond premium, policy uncertainty,
+structural VAR, sign restrictions, local projections
+\end{IEEEkeywords}
+
+% ===========================================================================
+\section{Introduction}
+% ===========================================================================
+
+Whether business R\&D investment falls in downturns has been debated since
+Schumpeter. In the opportunity-cost view of Aghion and Howitt
+\cite{aghionhowitt1992}, recessions lower the return to current production
+relative to innovation, so firms should shift resources towards R\&D when
+activity is weak. Most of the empirical evidence points the other way:
+aggregate and industry-level R\&D tends to be procyclical
+\cite{rafferty2003,barlevy2007,ouyang2011,fabrizio2014}. Two explanations are
+usually offered. R\&D is financed largely from internal funds and equity
+because it offers little collateral, so a contraction of credit supply forces
+constrained firms to cut it \cite{himmelberg1994,brown2009,aghion2012}.
+R\&D projects are also partly irreversible, so higher uncertainty raises the
+value of postponing them \cite{bernanke1983,bloom2009}. Because R\&D
+accumulates into a stock of knowledge, temporary cuts can lower the level of
+productivity for a long time \cite{anzoategui2019,cerra2023}.
+
+The United States is the natural place to study these mechanisms. It
+accounted for about 28\% of world R\&D expenditure in 2019, and the business
+sector performed about three quarters of U.S. R\&D \cite{nsb2022}. U.S.-based
+firms accounted for 42\% of the R\&D spending of the world's 2{,}000 largest
+corporate R\&D investors in 2023, and for about 70\% in ICT software
+\cite{nindl2024}. The current investment cycle in artificial intelligence is
+concentrated in the same economy: private investment in AI reached \$109
+billion in the United States in 2024, nearly twelve times the Chinese figure
+\cite{maslej2025}. In the national accounts data used below, private R\&D
+investment rose from 2.51\% of GDP in 2019Q4 to 2.86\% in 2025Q4, a nominal
+growth rate of 8.6\% a year. At the same time, policy uncertainty has
+risen sharply: the EPU index averaged 384 in 2025, almost four times its
+1986--2019 mean of 100. How credit conditions and policy uncertainty affect
+R\&D investment is therefore a question of current interest. The present boom is led by large, cash-rich firms, for which the
+credit channel may be weaker than in the historical average estimated here; we
+return to this point in Section~\ref{sec:concl}.
+
+We estimate a Bayesian structural vector autoregression (SVAR) for the U.S.
+economy over 1986--2019. Credit supply, uncertainty and aggregate supply
+shocks are identified by sign restrictions on output, prices and interest
+rates and by restrictions on the relative size of the responses of the excess
+bond premium (EBP) of Gilchrist and Zakraj\v{s}ek \cite{gilchrist2012} and the
+economic policy uncertainty (EPU) index of Baker, Bloom and Davis
+\cite{baker2016}. Following the agnostic approach of Uhlig \cite{uhlig2005}, no
+restriction is placed on R\&D investment, so the direction of its response is
+estimated rather than assumed. We complement the VAR with local projections
+\cite{jorda2005} to examine whether the effects persist, and we compute the
+implied path of the R\&D capital stock using the perpetual inventory method of
+the BEA R\&D Satellite Account \cite{sliker2007}.
+
+Credit supply shocks lower R\&D investment and account for about 16\% of its
+forecast error variance at a five-year horizon, while the effect of
+uncertainty shocks is small and not robust. The paper adds to the literature
+on R\&D cyclicality, which mostly relates R\&D to output, by separating credit
+supply from uncertainty shocks in aggregate data, and it complements
+firm-level studies of financing constraints \cite{brown2009,aghion2012}.
+
+% ===========================================================================
+\section{Related Literature}
+% ===========================================================================
+
+Barlevy \cite{barlevy2007} shows that procyclical R\&D can be privately
+optimal when the rents from innovation are dissipated quickly. Ouyang
+\cite{ouyang2011} finds that industry R\&D responds procyclically to demand
+shocks and countercyclically to supply shocks, and Fabrizio and Tsolmon
+\cite{fabrizio2014} find stronger procyclicality where innovations are easily
+imitated. At the firm level, Aghion et al.\ \cite{aghion2012} show with French
+data that R\&D is countercyclical for unconstrained firms and procyclical for
+credit-constrained ones, and Brown, Fazzari and Petersen \cite{brown2009} link
+the U.S. R\&D boom of the 1990s to the supply of internal and external equity
+finance.
+
+The link between R\&D and long-run growth is central to Schumpeterian and
+endogenous growth theory \cite{aghionhowitt1992}. Recent panel evidence for
+emerging economies is consistent with it: for Brazil, Russia, China and South
+Africa over 1996--2015, Huseynli and Durmu\c{s}kaya \cite{huseynli2026} estimate
+a random-effects model with Driscoll--Kraay standard errors and find a positive
+and significant association between per capita R\&D expenditure and GDP (an
+elasticity of about 1.4), but no significant association between renewable
+energy output and GDP. They interpret this as support for Schumpeterian and
+endogenous growth models. Their estimates concern long-run levels; the present
+paper asks how R\&D responds to cyclical credit and uncertainty shocks, which
+determines whether its growth contribution is interrupted in downturns.
+
+Real-options theory predicts that uncertainty delays irreversible investment
+\cite{bernanke1983}, and Bloom \cite{bloom2009} and Gulen and Ion
+\cite{gulen2016} find that uncertainty and policy uncertainty depress
+aggregate and corporate investment. For R\&D the prediction is less clear.
+High adjustment costs make R\&D smoother than physical investment
+\cite{bloom2007rd}, and firm-level studies find that uncertainty can raise
+R\&D \cite{stein2013,atanassov2015}. Caldara et al.\ \cite{caldara2016} show
+that financial and uncertainty shocks are difficult to separate, which is why
+we identify them jointly. Methodologically, the paper builds on the
+sign-restriction approach of \cite{uhlig2005,rubio2010} and on recent work on
+inference with local projections \cite{montiel2021}.
+
+% ===========================================================================
+\section{Data}\label{sec:data}
+% ===========================================================================
+
+\subsection{Sources and sample}
+Table~\ref{tab:data} lists the series. All are taken from FRED, except the EBP,
+which is published by the Federal Reserve Board \cite{favara2016}. Daily and
+monthly series are converted to quarterly frequency by averaging. The
+estimation sample is 1986Q1--2019Q4 ($T=136$), with four quarters of 1985 used
+as initial observations; the EPU index is not available before 1985. The
+baseline sample ends before the pandemic, whose observations are extreme
+outliers for a linear VAR \cite{lenza2022}; a robustness check extends the
+sample to 2026Q2 with impulse dummies for 2020Q1--2021Q4.
+
+\begin{table}[t]
+\caption{Data}
+\label{tab:data}
+\centering\footnotesize
+\begin{tabular}{>{\raggedright}p{2.7cm}>{\raggedright}p{3.0cm}p{1.6cm}}
+\hline
+Variable & Source (FRED code) & Unit \\
+\hline
+R\&D investment, nominal & BEA (Y006RC1Q027SBEA) & $100\ln$, real \\
+GDP, nominal & BEA (GDP) & $100\ln$, real \\
+GDP deflator & BEA (GDPDEF) & $100\ln$ \\
+1-year Treasury yield & FRB (DGS1), daily & percent \\
+Excess bond premium & FRB website \cite{favara2016}, monthly & p.p. \\
+EPU index & Baker et al.\ (USEPUINDXD), daily & $100\ln$ \\
+Baa--10y spread & Moody's (BAA10Y), daily & p.p. \\
+VIX & CBOE (VIXCLS), daily & $100\ln$ \\
+\hline
+\multicolumn{3}{l}{\scriptsize Nominal R\&D and GDP are deflated with the GDP deflator.}
+\end{tabular}
+\end{table}
+
+\subsection{R\&D investment}
+The R\&D variable is private fixed investment in research and development
+from the National Income and Product Accounts. Because a quarterly price index
+for R\&D investment was not available to us, nominal R\&D is deflated with the
+GDP deflator. The identifying restrictions imply that the GDP deflator falls
+after credit and uncertainty shocks, so this choice, if anything, biases the
+estimated decline in real R\&D towards zero; with log nominal R\&D the
+response to a credit supply shock after eight quarters is $-1.15\%$, compared
+with $-1.01\%$ for the deflated series. Quarterly NIPA R\&D is partly
+interpolated from annual survey data, but its quarterly growth rate is not
+unusually smooth (first-order autocorrelation 0.27 over 1986--2019, against
+0.37 for real GDP).
+
+\subsection{R\&D capital stock}
+Following the BEA/NSF R\&D Satellite Account \cite{sliker2007}, the stock of
+R\&D capital is constructed by geometric perpetual inventory with the
+mid-year convention,
+\begin{equation}
+K_t=(1-\delta)K_{t-1}+\left(1-\tfrac{1}{2}\delta\right)I_t ,
+\label{eq:pim}
+\end{equation}
+starting in 1947 with $\delta=0.15$. The initial stock is
+$K_{1946}=I_{1947}(1-\frac{1}{2}\delta)/(g+\delta)$, where $g$ is the trend
+growth rate of real R\&D investment estimated over the early subsample at which
+the $R^2$ of a log-linear trend regression reaches its first peak
+\cite{sliker2007}. This gives the subsample 1947--1969 and $g=9.45\%$ a year.
+By 1986 the initial stock accounts for less than 0.01\% of $K_t$, and the
+average growth of $K_t$ over 1986--2019 lies between 4.2\% and 4.4\% a year for
+$\delta$ between 0.10 and 0.25.
+
+\subsection{Credit and uncertainty indicators}
+The EBP is the component of corporate bond spreads that is not explained by
+expected default risk \cite{gilchrist2012}, and it is therefore a better
+indicator of credit supply conditions than the Baa--Treasury spread, which also
+moves with expected default. The EPU index measures policy-related
+uncertainty from newspaper coverage \cite{baker2016}. The Baa--10-year spread
+and the VIX are used as alternative indicators.
+
+\subsection{Stationarity}
+Table~\ref{tab:ur} reports augmented Dickey--Fuller (ADF) and KPSS tests. For
+real GDP, real R\&D and the one-year yield, the ADF test does not reject a unit
+root in levels and the KPSS test rejects stationarity, while first differences
+are stationary. The EBP, the EPU index and the VIX are stationary in levels.
+The GDP deflator is close to being integrated of order two. Following Sims,
+Stock and Watson \cite{sims1990}, the VAR is estimated in levels, which keeps
+the coefficient estimates consistent in the presence of unit roots and
+possible cointegration without imposing a particular cointegration structure.
+Impulse responses at long horizons are, however, not consistently estimated in
+this case \cite{phillips1998}, which is one reason for examining persistence
+with local projections as well.
+
+\begin{table}[t]
+\caption{Unit-root tests, 1985Q1--2019Q4. ADF: $t$-statistic (5\% critical
+value); KPSS: statistic (5\% critical value 0.46 for differences)}
+\label{tab:ur}
+\centering\footnotesize
+\resizebox{\columnwidth}{!}{\inputtable{tab_unitroot_short}}
+\end{table}
+
+% ===========================================================================
+\section{Methodology}
+% ===========================================================================
+
+\subsection{Reduced-form VAR}
+The vector of endogenous variables is
+$y_t=(\mathit{GDP}_t, P_t, \mathit{RD}_t, r_t, \mathit{EBP}_t, \mathit{EPU}_t)'$,
+where $\mathit{GDP}_t$ is $100$ times the log of real GDP, $P_t$ is $100$ times
+the log of the GDP deflator, $\mathit{RD}_t$ is $100$ times the log of real R\&D
+investment, $r_t$ is the one-year Treasury yield in percent, $\mathit{EBP}_t$
+is the excess bond premium in percentage points and $\mathit{EPU}_t$ is $100$
+times the log of the EPU index. Impulse responses of the log variables are
+therefore in percent. The reduced form is
+\begin{equation}
+y_t=c+\sum_{l=1}^{p}A_l y_{t-l}+u_t,\qquad u_t\sim N(0,\Sigma).
+\label{eq:var}
+\end{equation}
+We compare lag lengths $p=1,\dots,8$ on a common sample with the Akaike (AIC),
+Schwarz (BIC) and Hannan--Quinn (HQ) criteria,
+$\ln|\hat\Sigma_p|+\kappa_T\,pn^2/T$ with $\kappa_T=2$, $\ln T$ and
+$2\ln\ln T$, respectively, where $n=6$. The AIC selects two lags and the BIC and
+HQ criteria select one. The baseline uses $p=4$, a common choice for
+quarterly macroeconomic VARs, and models with two and six lags are reported as
+robustness checks. With four lags, multivariate LM tests reject the absence of residual
+autocorrelation at orders two to four ($p$-values 0.03, 0.01 and 0.04, but 0.19
+at order one), and Jarque--Bera tests reject normality of the GDP, EBP and EPU
+residuals; the R\&D residuals are close to normal ($p=0.79$).
+
+We use the standard diffuse prior $p(B,\Sigma)\propto|\Sigma|^{-(n+1)/2}$,
+where $B$ collects $c$ and $A_1,\dots,A_p$. The posterior is then
+normal--inverse-Wishart \cite{uhlig2005,kilian2017}: $\Sigma\mid y \sim
+\mathcal{IW}(\hat U'\hat U,\,T-m)$ and
+$\mathrm{vec}(B)\mid\Sigma,y\sim N(\mathrm{vec}(\hat B),\Sigma\otimes(X'X)^{-1})$,
+where $\hat B$ and $\hat U$ are the OLS coefficients and residuals, $X$ is the
+matrix of regressors and $m$ its number of columns. Draws that imply an
+explosive VAR are discarded (39\% of the draws, as expected for a VAR in
+levels with roots close to one).
+
+\subsection{Identification}
+The structural shocks $\varepsilon_t$ are related to the reduced-form
+residuals by $u_t=A\varepsilon_t$ with $AA'=\Sigma$. Any such impact matrix
+can be written as $A=PQ$, where $P$ is the lower-triangular Cholesky factor
+of $\Sigma$ and $Q$ is an orthogonal matrix. Following Rubio-Ram\'irez,
+Waggoner and Zha \cite{rubio2010}, for each draw of $(B,\Sigma)$ from the
+posterior we draw $Q$ from the uniform (Haar) distribution, which serves as
+the prior over rotations, and keep the draw if the implied impulse responses
+satisfy the restrictions in Table~\ref{tab:signs} on impact and one quarter
+after the shock. This is repeated until 1{,}000 draws are retained.
+
+\begin{table}[t]
+\caption{Identifying restrictions ($h=0,1$)}
+\label{tab:signs}
+\centering\footnotesize
+\begin{tabular}{lcccccc}
+\hline
+Shock & GDP & $P$ & RD & $r$ & EBP & EPU \\
+\hline
+Credit supply & $-$ & $-$ & $\cdot$ & $-$ & $+$ & $\cdot$ \\
+Uncertainty & $-$ & $-$ & $\cdot$ & $\cdot$ & $\cdot$ & $+$ \\
+Aggregate supply & $-$ & $+$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+\hline
+\multicolumn{7}{l}{\scriptsize $\cdot$ = unrestricted. Relative-magnitude restrictions (\ref{eq:rel}) also apply.}
+\end{tabular}
+\end{table}
+
+A credit supply shock raises the EBP and lowers output and prices, as in
+Gilchrist and Zakraj\v{s}ek \cite{gilchrist2012}, whose EBP shocks are also
+followed by lower interest rates. Requiring the one-year yield to fall
+distinguishes this shock from a monetary policy tightening, which raises both
+spreads and short-term rates. An uncertainty shock raises the EPU index and
+lowers output and prices, consistent with evidence that uncertainty shocks act
+like negative demand shocks \cite{leduc2016}. Since both shocks move output and
+prices in the same direction, they are separated by restrictions on the
+relative size of the impact responses of the EBP and EPU. Let $a_{ij}$ denote
+the impact response of variable $i$ to shock $j$ and $\sigma_i$ the standard
+deviation of the reduced-form residual of variable $i$. We require
+\begin{equation}
+\frac{a_{\mathrm{EBP},\mathrm{cr}}}{\sigma_{\mathrm{EBP}}}>
+\frac{a_{\mathrm{EPU},\mathrm{cr}}}{\sigma_{\mathrm{EPU}}},
+\qquad
+\frac{a_{\mathrm{EPU},\mathrm{unc}}}{\sigma_{\mathrm{EPU}}}>
+\frac{a_{\mathrm{EBP},\mathrm{unc}}}{\sigma_{\mathrm{EBP}}},
+\label{eq:rel}
+\end{equation}
+so that a credit supply shock moves the EBP by more standard deviations than
+the EPU index, and an uncertainty shock does the opposite. An aggregate supply
+shock moves output and prices in opposite directions. The remaining three
+shocks are not identified. R\&D investment is not restricted for any shock.
+Because pointwise posterior medians do not correspond to a single model
+\cite{fry2011}, the historical decomposition is computed for the draw whose
+impulse responses are closest to the pointwise medians.
+
+\subsection{Local projections and the R\&D capital stock}
+Impulse responses of a VAR at long horizons are extrapolations of its lag
+structure. To check persistence, we also estimate lag-augmented local
+projections \cite{jorda2005,montiel2021}
+\begin{equation}
+x_{t+h}-x_{t-1}=\alpha_h+\beta_h\hat\varepsilon_t+\sum_{l=1}^{3}\Gamma_{h,l}\,y_{t-l}+e_{t+h},
+\label{eq:lp}
+\end{equation}
+for $h=0,\dots,28$, where $x_t=\mathit{RD}_t$ and $\hat\varepsilon_t$ is the
+standardized credit supply or uncertainty shock from the VAR. To test for a
+medium-run effect, the dependent variable is replaced by the average of
+$x_{t+h}-x_{t-1}$ over $h=20,\dots,28$ (five to seven years). Standard errors
+are computed with the equal-weighted cosine estimator and Student-$t$ critical
+values \cite{lazarus2018}. Because local projections at long horizons are
+imprecise in samples of this size \cite{kilian2011}, we checked the coverage of
+these intervals by simulating 1{,}000 samples from the estimated SVAR: nominal
+95\% intervals for the average response over $h=20,\dots,28$ cover the true
+value in about 85\% of the samples, so the reported standard errors are, if
+anything, too small.
+
+The R\&D capital stock is a fixed linear filter of past investment
+(\ref{eq:pim}), so its response is not estimated separately but computed from
+the response of R\&D investment in each posterior draw, using the quarterly
+version of (\ref{eq:pim}).
+
+% ===========================================================================
+\section{Results}
+% ===========================================================================
+
+\subsection{Impulse responses}
+Fig.~\ref{fig:irf} shows the responses of real R\&D investment, and
+Table~\ref{tab:resp} summarizes them. A one-standard-deviation credit supply
+shock raises the EBP by 16 basis points and lowers real GDP by 0.16\% and the
+one-year yield by 13 basis points on impact. R\&D investment declines
+gradually and reaches its trough of $-1.01\%$ after eight quarters, with a 68\%
+credible set of $[-1.80,-0.15]$ and a posterior probability of a decline of
+0.88. The response is still $-0.49\%$ after five years, but the credible set
+then includes zero. Credit supply shocks account for 16\% of the forecast error
+variance of R\&D at the five-year horizon.
+
+The uncertainty shock raises the EPU index by about 12.5 log points and
+lowers GDP by 0.17\% on impact. Its effect on R\&D is smaller: the median response reaches
+$-0.40\%$ after eight quarters, but the credible set is wide and the posterior
+probability of a decline is only 0.67. The aggregate supply shock lowers R\&D
+by about 0.5\% after two years, again with a credible set that includes zero.
+The unrestricted cross-responses are small: the EBP barely moves after an
+uncertainty shock, and the EPU index barely moves after a credit supply shock.
+
+\begin{figure*}[t]
+\centering
+\inputfig{fig_irf_rd}{0.92\textwidth}
+\caption{Responses of real R\&D investment (percent) to one-standard-deviation
+shocks. Posterior median and 68\% and 90\% credible sets. The response of R\&D
+is not restricted.}
+\label{fig:irf}
+\end{figure*}
+
+\begin{table*}[t]
+\caption{Response of real R\&D investment: posterior median [68\% credible set],
+posterior probability of a decline at $h=8$, and share of the 20-quarter
+forecast error variance}
+\label{tab:resp}
+\centering\footnotesize
+\inputtable{tab_rd_responses}
+\end{table*}
+
+\subsection{Historical decomposition}
+Fig.~\ref{fig:hd} decomposes the deviation of R\&D investment from its
+baseline projection. The identified credit supply shocks explain only a small
+part of the large shortfalls in R\&D. Over 2008Q3--2010Q4, R\&D was on average
+18.5\% below its baseline; aggregate supply shocks account for about 11
+percentage points of this and the unidentified shocks for about 6, while the
+contribution of credit supply shocks is close to zero. Over 2001--2003 the
+shortfall of 8.6\% is attributed mostly to unidentified shocks. Thus credit
+supply shocks lower R\&D on average, but in this decomposition they do not
+account for the main R\&D downturns of the sample. This result rests on a
+single draw from the identified set and should be read with caution; the identified set also
+depends on the uniform prior over rotations \cite{baumeister2015}.
+
+\begin{figure}[t]
+\centering
+\inputfig{fig_hd_rd_small}{\columnwidth}
+\caption{Historical decomposition of real R\&D investment, percent deviation
+from the baseline projection (draw closest to the median responses).}
+\label{fig:hd}
+\end{figure}
+
+\subsection{Persistence}
+The local projections in Fig.~\ref{fig:lp} broadly agree with the VAR over the
+first two years: after a credit supply shock, R\&D investment falls to about
+$-0.7\%$ after nine to ten quarters. Afterwards, however, the local projection
+returns to zero after about three years, while the VAR response
+decays more slowly. After an uncertainty shock, the local projection is close
+to zero for two years and then falls to about $-1\%$ after four years before
+returning to zero; this pattern is estimated imprecisely. Table~\ref{tab:lr}
+reports the average responses over five to seven years. The local projection
+estimates are $-0.20\%$ (s.e.\ 0.31) for the credit supply shock and $0.10\%$
+(s.e.\ 0.22) for the uncertainty shock, neither significantly different from
+zero. The VAR gives a larger medium-run response to credit supply shocks,
+$-0.47\%$, but its credible set includes zero. Because the capital stock
+accumulates past investment, the implied R\&D capital stock is $0.46\%$ below
+its baseline five to seven years after a credit supply shock, with a 68\%
+credible set that just excludes zero. The data therefore do not show a lasting
+effect on R\&D investment itself, but the temporary decline is large enough to
+leave a persistent gap in the stock of R\&D capital.
+
+\begin{figure}[t]
+\centering
+\inputfig{fig_lp_rd}{\columnwidth}
+\caption{Local projections of real R\&D investment (percent) on the identified
+shocks, with 68\% and 90\% confidence intervals.}
+\label{fig:lp}
+\end{figure}
+
+\begin{table}[t]
+\caption{Average response over $h=20,\dots,28$, percent: local projection
+(s.e.) and VAR posterior median [68\% credible set]}
+\label{tab:lr}
+\centering\footnotesize
+\inputtable{tab_longrun_short}
+\end{table}
+
+\subsection{Robustness}
+Table~\ref{tab:rob} reports the response of R\&D after eight quarters in
+alternative specifications. The decline of R\&D after a credit supply shock is
+robust: its posterior probability lies between 0.74 and 1.00 in all
+specifications, and the median response lies between $-0.61\%$ and $-1.44\%$.
+The weakest result is obtained when the restriction on the one-year yield is
+removed, which makes it harder to separate credit supply from monetary policy
+shocks. The response to uncertainty shocks is not robust: it becomes positive
+when the VIX replaces the EPU index, and it becomes large and negative only
+when the restrictions are imposed for four quarters or when the financial
+variables are ordered first in a recursive identification.
+
+\begin{table}[t]
+\caption{Robustness: response of R\&D at $h=8$, posterior median [68\% credible
+set] and probability of a decline. Percentage points of GDP for R\&D/GDP}
+\label{tab:rob}
+\centering\footnotesize
+\resizebox{\columnwidth}{!}{\inputtable{tab_robustness_short}}
+\end{table}
+
+% ===========================================================================
+\section{Discussion and Conclusion}\label{sec:concl}
+% ===========================================================================
+
+The results support the financing channel of R\&D cyclicality. Tighter credit
+supply reduces aggregate U.S. R\&D investment, in line with firm-level
+evidence on financing constraints \cite{brown2009,aghion2012}. Once credit
+conditions are controlled for, we find no robust effect of policy uncertainty
+on R\&D. This is consistent with the view that high adjustment costs make
+R\&D less sensitive to uncertainty than physical investment
+\cite{bloom2007rd,stein2013}, and with the finding of Caldara et al.\
+\cite{caldara2016} that part of what appears to be an uncertainty effect
+reflects financial conditions. The effects of credit supply shocks on R\&D
+investment fade after three to five years, but they leave a gap in the stock
+of R\&D capital. Given the long-run association between R\&D and output
+documented in the growth literature \cite{huseynli2026}, such gaps are one way
+in which financial disturbances could affect productivity, although testing
+this directly is beyond the scope of this paper.
+
+Several limitations should be kept in mind. Aggregate data cannot distinguish
+constrained from unconstrained firms. This matters for the current AI-related
+investment cycle, which is led by large firms with ample internal funds, for
+which the credit channel estimated over 1986--2019 may be weaker. R\&D is
+deflated with the GDP deflator. The sample contains few large credit events,
+and the results are conditional on the identifying restrictions. Combining the
+identified aggregate shocks with firm-level R\&D data would allow the credit
+channel to be examined separately for constrained and unconstrained firms.
+
+\section*{Data Availability}
+All data are publicly available from the sources in Table~\ref{tab:data}. The
+MATLAB code is available from the author on request.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
